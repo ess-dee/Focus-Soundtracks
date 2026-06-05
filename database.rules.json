@@ -1,0 +1,39 @@
+{
+  "rules": {
+    "presence": {
+      "$roomId": {
+        ".read": true,
+        "$sessionId": {
+          ".write": "auth != null",
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+    "presence-counts": {
+      ".read": true,
+      "$roomId": {
+        ".write": false,
+        ".validate": "newData.isNumber()"
+      }
+    },
+    "reactions": {
+      "$roomId": {
+        ".read": true,
+        "$reactionId": {
+          ".write": "auth != null",
+          ".validate": "newData.hasChildren(['emoji', 'timestamp'])",
+          "emoji": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 10"
+          },
+          "timestamp": {
+            ".validate": "newData.isNumber()"
+          }
+        }
+      }
+    },
+    "total-presence": {
+      ".read": true,
+      ".write": false
+    }
+  }
+}
